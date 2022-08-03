@@ -23,10 +23,39 @@ class ManagerBoard {
 }
 
 class Power {
-    void sigterm() {
+    void sigtermf() {
         digitalWrite(signalizator, HIGH);
         delay(2500);
         digitalWrite(signalizator, LOW);
+
+        for(int i = 0; i < 301; i++) {
+            if(Monitoring::isActive() == false) {
+                Power::power(false);                                                            // Power off
+            }
+        }
+
+        Power::power(false);                                                                    // Power off
+    };
+
+    void power(bool power_) {
+        if(power_) {
+            digitalWrite(board, HIGH);
+        } else {
+            digitalWrite(board, LOW);
+        }
+
+        return Monitoring::isActive();
+    };
+
+    void reset(bool force) {
+        if(force) {
+            Power::power(false);
+        } else {
+            Power::sigtermf();
+        }
+
+        delay(500);
+        Power::power(true);
     }
 }
 
