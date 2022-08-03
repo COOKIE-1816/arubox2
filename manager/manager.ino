@@ -4,6 +4,7 @@
 // hardware clock.
 
 int attemp = 0;
+int bps = 9600;
 
 class Monitoring {
     public:
@@ -14,7 +15,19 @@ class Monitoring {
 
 class ManagerBoard {
     void readConfig() {};
-    void startSetup() {};
+    void startSetup() {
+        Serial.begin(bps);
+        Serial1.begin(bps);
+        Serial2.begin(bps);
+    };
+}
+
+class Power {
+    void sigterm() {
+        digitalWrite(signalizator, HIGH);
+        delay(2500);
+        digitalWrite(signalizator, LOW);
+    }
 }
 
 void setup() {
