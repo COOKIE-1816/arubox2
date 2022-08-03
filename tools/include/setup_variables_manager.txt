@@ -3,6 +3,10 @@
  1 ) Change PWM pin for seconds.
  2 ) Change PWM pin for minutes.
  3 ) Change PWM pin for hours.
- 4 ) Enable/disable hardware clock.
+ 4 ) Enable or disable hardware clock.
 --- POWER ---
  5 ) Change power delivery delay.
+ 6 ) Enable or disable button.
+ 7 ) Change power button pin.
+--- BOARD ---
+ 8 ) Board monitoring pin.
