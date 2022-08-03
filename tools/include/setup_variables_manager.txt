@@ -1,4 +1,6 @@
+ 0 ) Exit
 --- HARDWARE CLOCK ---
- 1 ) PWM pin for seconds
- 2 ) PWM pin for minutes
- 3 ) PWM pin for hours
+ 1 ) Change PWM pin for seconds.
+ 2 ) Change PWM pin for minutes.
+ 3 ) Change PWM pin for hours.
+ 4 ) Enable/disable hardware clock.
