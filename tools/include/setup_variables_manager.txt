@@ -4,3 +4,5 @@
  2 ) Change PWM pin for minutes.
  3 ) Change PWM pin for hours.
  4 ) Enable/disable hardware clock.
+--- POWER ---
+ 5 ) Change power delivery delay.
