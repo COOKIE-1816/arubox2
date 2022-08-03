@@ -1,1 +1,1 @@
-python ./include/all_systems/oem_logo.py
+python ./include/linux/oem_logo.py
