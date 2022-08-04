@@ -91,10 +91,12 @@ class Power {
             delay(2500);
             digitalWrite(signalizator, LOW);
 
-            for(int i = 0; i < 301; i++) {
+            for(int i = 0; i < 61; i++) {
                 if(!isActive()) {
                     Power::power(false);                                                            // Power off
                 }
+
+                delay(1000);
             }
 
             Power::power(false);                                                                    // Power off
@@ -125,11 +127,17 @@ void setup() {
 }
 
 void loop() {
-    /*
-    if(isActive() == exceptedBoardStatus == HIGH) {
+    if(digitalRead(button) != LOW) {
         Clock::increase(1);
+        Clock::inform();
+
+        delay(1000);
     } else {
-        digitalWrite(board, exceptedBoardStatus);
+        unsigned long duration = pulseInLong(button, HIGH, timeout);
+        if(duration > 2999) {
+            Power::power(false);
+        } else {
+            Power::sigtermf();
+        }
     }
-    */
 }
