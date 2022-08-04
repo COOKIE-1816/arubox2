@@ -12,6 +12,7 @@ int hours;
 int board;
 int signalizator;
 int exceptedBoardStatus;
+int button;
 
 bool isActive() {
     // return digitalRead(boardStatusIndicator) == HIGH;
@@ -25,7 +26,7 @@ bool isActive() {
 /*
 class Monitoring {
     public:
-        bool isActive() {
+        static bool isActive() {
             // return digitalRead(boardStatusIndicator) == HIGH;
             if(digitalRead(boardStatusIndicator) == HIGH) {
                 return true;
@@ -39,8 +40,8 @@ class Monitoring {
 class ManagerBoard {
     /*
     public:
-        void readConfig() {};
-        void startSetup() {
+        static void readConfig() {};
+        static void startSetup() {
             Serial.begin(bps);
         };
     */
@@ -52,41 +53,47 @@ class Clock {
         int min = 0;
         int hrs = 0;
 
-        void inform() {
-            analogWrite(seconds, Clock::sec);
-            analogWrite(minutes, Clock::min);
-            analogWrite(hours, Clock::hrs);
+        static void inform() {
+            Clock clk;
+
+            analogWrite(seconds, clk.sec);
+            analogWrite(minutes, clk.min);
+            analogWrite(hours, clk.hrs);
         };
 
-        void reset() {
-            Clock::sec = 0;
-            Clock::min = 0;
-            Clock::hrs = 0;
+        static void reset() {
+            Clock clk;
+
+            clk.sec = 0;
+            clk.min = 0;
+            clk.hrs = 0;
         };
 
-        void increase(int seconds) {
-            if(Clock::sec == 59) {  //ok
-                if(Clock::min == 59) { //ok
-                    if(Clock::hrs == 23) {
-                        Clock::reset();
+        static void increase(int seconds) {
+            Clock clk;
+
+            if(clk.sec == 59) {  //ok
+                if(clk.min == 59) { //ok
+                    if(clk.hrs == 23) {
+                        clk.reset();
                     } else {
-                        Clock::hrs = Clock::hrs + 1;
-                        Clock::min = 0;
-                        Clock::sec = 0;
+                        clk.hrs = clk.hrs + 1;
+                        clk.min = 0;
+                        clk.sec = 0;
                     }
                 } else {
-                    Clock::min = Clock::min + 1;
-                    Clock::sec = 0;
+                    clk.min = clk.min + 1;
+                    clk.sec = 0;
                 }
             } else {
-                Clock::sec = Clock::sec + 1;
+                clk.sec = clk.sec + 1;
             }
         };
 };
 
 class Power {
     public:
-        void sigtermf() {
+        static void sigtermf() {
             Serial.println("Send signal: SIGTERMf");
 
             digitalWrite(signalizator, HIGH);
@@ -102,7 +109,7 @@ class Power {
             Power::power(false);                                                                    // Power off
         };
 
-        void power(bool power_) {
+        static void power(bool power_) {
             if(power_) {
                 Serial.println("Power on...");
 
@@ -116,7 +123,7 @@ class Power {
             }
         };
 
-        void reset(bool force) {
+        static void reset(bool force) {
             if(force) {
                 Power::power(false);
             } else {
@@ -150,7 +157,7 @@ void loop() {
 
         delay(1000);
     } else {
-        unsigned long duration = pulseInLong(button, HIGH, timeout);
+        unsigned long duration = pulseInLong(button, HIGH, duration);
         if(duration > 2999) {
             Power::power(false);
         } else {
