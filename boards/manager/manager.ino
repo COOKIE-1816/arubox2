@@ -87,16 +87,16 @@ class Clock {
 class Power {
     public:
         void sigtermf() {
+            Serial.println("Send signal: SIGTERMf");
+
             digitalWrite(signalizator, HIGH);
-            delay(2500);
+            delay(200);
             digitalWrite(signalizator, LOW);
 
             for(int i = 0; i < 61; i++) {
                 if(!isActive()) {
                     Power::power(false);                                                            // Power off
                 }
-
-                delay(1000);
             }
 
             Power::power(false);                                                                    // Power off
@@ -104,9 +104,15 @@ class Power {
 
         void power(bool power_) {
             if(power_) {
+                Serial.println("Power on...");
+
                 digitalWrite(board, HIGH);
+                exceptedBoardStatus = HIGH;
             } else {
+                Serial.println("Power off...");
+
                 digitalWrite(board, LOW);
+                exceptedBoardStatus = LOW;
             }
         };
 
@@ -117,7 +123,7 @@ class Power {
                 Power::sigtermf();
             }
 
-            delay(500);
+            //delay(500);
             Power::power(true);
         }
 };
@@ -128,6 +134,17 @@ void setup() {
 
 void loop() {
     if(digitalRead(button) != LOW) {
+        if((digitalRead(boardStatusIndicator) == exceptedBoardStatus) == false) {
+            if(attemp > 10) {
+                exceptedBoardStatus = digitalRead((boardStatusIndicator));
+                int attemp = 0;
+
+                Serial.println("Fatal: could not update board status!");
+            } else {
+                digitalWrite(board, exceptedBoardStatus);
+                attemp++;
+            }
+        }
         Clock::increase(1);
         Clock::inform();
 
