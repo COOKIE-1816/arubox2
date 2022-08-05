@@ -1,5 +1,5 @@
-#ifndef Library_h
-#define Library_h
+#ifndef Power_h
+#define Power_h
 
 #include "Arduino.h"
 
@@ -13,6 +13,7 @@ class Power {
     private:
         int reset_pin;
         int pooff_pin;
+        bool pmnr_show = true;
 };
 
 #endif
