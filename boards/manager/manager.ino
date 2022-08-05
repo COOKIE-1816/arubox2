@@ -37,15 +37,15 @@ class Monitoring {
 };
 */
 
+/*
 class ManagerBoard {
-    /*
     public:
         static void readConfig() {};
         static void startSetup() {
             Serial.begin(bps);
         };
-    */
 };
+*/
 
 class Clock {
     public:
