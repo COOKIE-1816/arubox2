@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "lib/memory/memory.h"
+#include <iostream>
 
 void Memory::begin() {
     CIOBS ciobs;
@@ -31,6 +32,48 @@ void Memory::begin() {
     pinMode(oe, OUTPUT);
     pinMode(rclk, OUTPUT);
     pinMode(srclk, OUTPUT);
+
+    int latchPin = rclk;
+    int clockPin = srclk;
+    int dataPin = ser;
+}
+
+void Memory::getBinary() {
+    Memory memory;
+
+    string bin = "";
+
+    for(int current = 0; current < size_; current++) {
+        if(memory.getBit(current) == 1) {
+            bin = bin + "1";
+        } else {
+            bin = bin + "0";
+        }
+    }
+
+    return bin;
+}
+
+void Memory::setBinary(bin /*binary*/) {
+    digitalWrite(latchPin, LOW);
+
+    shiftOut(dataPin, clockPin, MSBFIRST, bin);
+
+    digitalWrite(latchPin, HIGH);
+    delay(50);
+}
+
+void Memory::setBit(int bit, char value) {
+    digitalWrite(latchPin, LOW);
+
+    value_ Memory.getBinary();
+    value_[bit + 1] = value;
+    value = "B" + value_;
+
+    shiftOut(dataPin, clockPin, MSBFIRST, value_);
+
+    digitalWrite(latchPin, HIGH);
+    delay(50);
 }
 
 void Memory::getBit(int bit) {
@@ -42,9 +85,11 @@ void Memory::getBit(int bit) {
 }
 
 void Memory::clear() {
-    digitalWrite(slclr, HIGH);
-    delay(85);
-    digitalWrite(slclr, LOW);
+    Memory memory;
+
+    for(int current = 0; current < size_; current++) {
+        memory.setBit(current, "0");
+    }
 }
 
 void Memory::fill(int value) {
